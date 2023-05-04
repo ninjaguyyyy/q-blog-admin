@@ -2,12 +2,17 @@
 @import 'src/styles/mixins';
 
 .header {
-  border: 1px solid $gray-dark-color;
-  border-radius: 100px;
-  padding: 15px 60px;
+  background-color: $white-color;
+  padding: 16px 24px;
+  padding-top: 15px;
 
   @include media-xs() {
-    border-radius: 0;
     padding: 10px 15px;
+  }
+  button {
+    background-color: #f3e8ff;
+    border-radius: round($number:12px);
+    justify-items: center;
+    
   }
 }

@@ -1,0 +1,35 @@
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
+.siderbar {
+  padding-left: 15px;
+  width: 200px;
+  ul {
+    p {
+      width: 150px;
+      padding: 5px;
+      margin: 0 0 5px;
+    }
+    a {
+      display: flex;
+      flex-direction: row;
+      width: 200px;
+      padding: 1px;
+      margin: 10px 0 5px;
+      color: rgb(54, 65, 82);
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.334em;
+      font-family: sans-serif;
+      background-color: rgb(255, 255, 255);
+      // &:hover {
+      //   background-color: rgb(229, 225, 240);
+      // }
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  }
+  @include media-xs() {
+    padding: 10px 15px;
+  }
+}

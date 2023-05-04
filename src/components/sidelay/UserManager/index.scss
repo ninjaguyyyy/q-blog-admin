@@ -1,0 +1,31 @@
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
+.menu {
+  display: inline-block;
+  position: relative;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+.menu-item {
+  display: inline-block;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.submenu {
+//   position: absolute;
+  background-color: none;
+  font-size: 14px;
+  padding: 10px;
+}
+
+.submenu-item {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.submenu-item:hover {
+  color: rgb(63, 13, 199);
+}

@@ -1,0 +1,30 @@
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
+@mixin container {
+  position: static;
+  box-shadow: none;
+  padding: 20px;
+  margin: auto 20px;
+  border-radius: 12px;
+  background-color:rgb(238, 242, 246);
+  color: rgb(54,65,82);
+
+}
+
+@mixin content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: $white-color;
+  padding: 20px;
+}
+
+.container {
+  @include container;
+
+  content {
+    @include content;
+  }
+}

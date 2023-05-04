@@ -1,5 +1,4 @@
 import 'styles/global.scss';
-
 import Layout from 'components/pages/Layout';
 import RoutesConfig from 'RoutesConfig';
 

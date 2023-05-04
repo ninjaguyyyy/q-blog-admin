@@ -1,8 +1,8 @@
 import loadable from '@loadable/component';
-
 import { RouteConfig } from 'models/configuration';
 
 export const routes: RouteConfig[] = [
+  
   {
     path: '/',
     component: loadable(() => import('components/pages/Home'))
@@ -16,10 +16,15 @@ export const routes: RouteConfig[] = [
     component: loadable(() => import('components/pages/Blogs'))
   },
   {
+    path: '/dashboard',
+    component: loadable(() => import('components/pages/DashBoard'))
+  },
+  {
     path: '/profile',
     auth: true,
     component: loadable(() => import('components/pages/user/Profile'))
   }
+ 
 ];
 
 export const ROUTE = {

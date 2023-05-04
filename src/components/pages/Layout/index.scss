@@ -1,0 +1,27 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    'header header'
+    'sidebar main'
+    'footer footer';
+  min-height: 100vh;
+}
+
+.header {
+  grid-area: header;
+  padding: 20px;
+}
+
+.sidebar {
+  grid-area: sidebar;
+}
+
+.main {
+  grid-area: main;
+}
+
+.footer {
+  grid-area: footer;
+}
