@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { BrowserRouter, Link } from 'react-router-dom';
 import './index.scss';
 
 export default function UserManage() {
@@ -14,11 +15,13 @@ export default function UserManage() {
         User Manager
       </div>
       {submenuOpen && (
-        <div className="submenu">
-          <div className="submenu-item">List User</div>
-          <div className="submenu-item">Add User</div>
-          <div className="submenu-item">Edit User</div>
-        </div>
+        <BrowserRouter>
+          <div className="submenu">
+            <Link to='list-user' className="submenu-item" reloadDocument>List User</Link>
+            <Link to='add-user' className="submenu-item" reloadDocument>Add User</Link>
+            <Link to='edit-user' className="submenu-item" reloadDocument>Edit User</Link>
+          </div>
+        </BrowserRouter>
       )}
     </div>
   );

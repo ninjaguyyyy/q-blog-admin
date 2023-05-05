@@ -8,6 +8,14 @@ export const routes: RouteConfig[] = [
     component: loadable(() => import('components/pages/Home'))
   },
   {
+    path: '/list-user',
+    component: loadable(() => import('components/pages/user/ListUser'))
+  },
+  {
+    path: '/add-user',
+    component: loadable(() => import('components/pages/user/AddUser'))
+  },
+  {
     path: '/sign-in',
     component: loadable(() => import('components/pages/SignIn'))
   },
