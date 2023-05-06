@@ -1,28 +1,25 @@
-import { BellOutlined, SettingOutlined } from '@ant-design/icons';
+import { BellOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+
+import IconButton from 'components/atoms/IconButton';
+import AdminSettingButton from 'components/molecules/AdminSettingButton';
 import './index.scss';
+
 export default function Header() {
   return (
     <div className="flex header items-center justify-between">
-      <div className="flex items-center">
-        <img className="h-10 w-10" src="/vite.svg" alt="Logo" />
-        <p className="px-5">BLOCK MANAGER</p>
-      </div>
-      <div className="flex flex-row space-x-1">
-        <div className='px-5'><button
-          className="w-10 h-10 hover:bg-violet-400"
-          onClick={() => {
-            alert('Noti');
-          }}>
-          {' '}
-          <BellOutlined />
-        </button></div>
-        <button
-          className="w-10 h-10 hover:bg-violet-400"
-          onClick={() => {
-            alert('Setting');
-          }}>
-          <SettingOutlined />
-        </button>
+      {/* Brand Logo */}
+      <Link to={'/'}>
+        <div className="flex items-center cursor-pointer">
+          <img className="h-6 w-6" src="/vite.svg" alt="Logo" />
+          <p className="px-3 font-bold">Q-BLOG ADMIN</p>
+        </div>
+      </Link>
+
+      {/* Header Actions */}
+      <div className="flex items-center gap-6 space-x-1">
+        <IconButton icon={<BellOutlined />} />
+        <AdminSettingButton />
       </div>
     </div>
   );

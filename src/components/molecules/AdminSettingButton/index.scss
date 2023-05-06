@@ -1,0 +1,15 @@
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
+.admin-setting-button {
+  color: $pink-dark-color;
+
+  &:hover {
+    background-color: $blue-color !important;
+    color: #fff !important;
+  }
+
+  .icon {
+    font-size: 18px;
+  }
+}

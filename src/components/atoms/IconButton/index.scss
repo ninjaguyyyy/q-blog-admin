@@ -1,0 +1,11 @@
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
+.icon-button {
+  box-shadow: none;
+  color: $pink-dark-color;
+
+  &:hover {
+    background-color: $pink-dark-color !important;
+  }
+}

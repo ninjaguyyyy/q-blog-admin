@@ -1,11 +1,13 @@
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
 .layout {
   display: grid;
-  grid-template-columns: 1fr 5fr;
-  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr 4.5fr;
+  grid-template-rows: auto 1fr;
   grid-template-areas:
     'header header'
-    'sidebar main'
-    'footer footer';
+    'sidebar main';
   min-height: 100vh;
 }
 
@@ -14,14 +16,11 @@
   padding: 20px;
 }
 
-.sidebar {
-  grid-area: sidebar;
-}
-
 .main {
   grid-area: main;
-}
 
-.footer {
-  grid-area: footer;
+  padding: 20px;
+  margin-right: 20px;
+  border-radius: 12px;
+  background-color: $green-dark-color;
 }

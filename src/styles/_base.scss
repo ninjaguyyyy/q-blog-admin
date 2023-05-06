@@ -1,49 +1,6 @@
 @import 'variables';
 @import 'mixins';
 
-// Declare fonts
-@font-face {
-  font-family: $brand-logo-font;
-  font-weight: 400;
-  src: url('../assets/fonts/paytone-one/PaytoneOne-Regular.ttf');
-}
-
-@font-face {
-  font-family: $primary-font;
-  font-weight: 900;
-  src: url('../assets/fonts/fira-sans/FiraSans-Black.ttf');
-}
-
-@font-face {
-  font-family: $primary-font;
-  font-weight: 700;
-  src: url('../assets/fonts/fira-sans/FiraSans-Bold.ttf');
-}
-
-@font-face {
-  font-family: $primary-font;
-  font-weight: 300;
-  src: url('../assets/fonts/fira-sans/FiraSans-Light.ttf');
-}
-
-@font-face {
-  font-family: $primary-font;
-  font-weight: 400;
-  src: url('../assets/fonts/fira-sans/FiraSans-Regular.ttf');
-}
-
-@font-face {
-  font-family: $primary-font;
-  font-weight: 500;
-  src: url('../assets/fonts/fira-sans/FiraSans-Medium.ttf');
-}
-
-@font-face {
-  font-family: $primary-font;
-  font-weight: 100;
-  src: url('../assets/fonts/fira-sans/FiraSans-Thin.ttf');
-}
-
 html,
 body {
   font-family: $primary-font;
