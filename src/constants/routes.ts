@@ -18,6 +18,10 @@ export const routes: RouteConfig[] = [
   {
     path: '/dashboard',
     component: loadable(() => import('components/pages/DashBoard'))
+  },
+  {
+    path: '/category-management',
+    component: loadable(() => import('components/pages/CategoryManagement'))
   }
 ];
 

@@ -27,3 +27,13 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+// Container --------------------
+.page-management-container {
+  background: $white-color;
+  border-radius: 12px;
+
+  .heading {
+    border-bottom: 1px solid lightgray;
+  }
+}

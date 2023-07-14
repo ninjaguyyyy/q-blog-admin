@@ -1,16 +1,15 @@
 // eslint-disable-next-line import/named
-import { Input, InputProps } from 'antd';
+import { Select, SelectProps } from 'antd';
 import { Control, Controller } from 'react-hook-form';
 
-type Props = InputProps & {
+interface Props extends SelectProps<any> {
   name: string;
-  className?: string;
   control: Control<any>;
   defaultValue?: unknown;
-};
+}
 
-export default function InputField(props: Props) {
-  const { name, control, defaultValue, ...textFieldProps } = props;
+export default function SelectField(props: Props) {
+  const { name, control, defaultValue, ...selectProps } = props;
   const defaultValueInput = defaultValue !== undefined ? defaultValue : '';
 
   return (
@@ -18,9 +17,7 @@ export default function InputField(props: Props) {
       name={name}
       control={control}
       defaultValue={defaultValueInput}
-      render={({ field }) => {
-        return <Input {...textFieldProps} {...field} />;
-      }}
+      render={({ field }) => <Select {...selectProps} {...field} />}
     />
   );
 }

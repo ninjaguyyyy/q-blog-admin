@@ -29,6 +29,16 @@ export const SIDEBAR_ITEMS: SidebarItem[] = [
     ]
   },
   {
+    title: 'Categories',
+    subs: [
+      {
+        title: 'Management',
+        link: '/category-management',
+        icon: <BlockOutlined />
+      }
+    ]
+  },
+  {
     title: 'Users',
     subs: [
       {

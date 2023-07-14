@@ -1,7 +1,7 @@
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-import './index.scss';
 import { SidebarItem } from 'models/sidebar-item';
+import './index.scss';
 
 type Props = {
   item: SidebarItem;
