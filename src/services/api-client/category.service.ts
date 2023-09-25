@@ -8,3 +8,23 @@ export const fetchCategories = async () => {
   const data = await axiosClient.get(APIs.CATEGORIES);
   return data;
 };
+
+export const createCategory = async (payload: CreateOrUpdateCategoryPayload) => {
+  const data = await axiosClient.post(APIs.CATEGORIES, payload);
+  return data;
+};
+
+export const updateCategory = async (payload: CreateOrUpdateCategoryPayload) => {
+  const data = await axiosClient.patch(APIs.CATEGORIES, payload);
+  return data;
+};
+
+export const deleteCategory = async () => {
+  const data = await axiosClient.delete(APIs.CATEGORIES); // todo: change this
+  return data;
+};
+
+type CreateOrUpdateCategoryPayload = {
+  name: string;
+  parentCategoryId: string;
+};

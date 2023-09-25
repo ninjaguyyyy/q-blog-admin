@@ -1,8 +1,12 @@
 import axios from 'axios';
 import queryString from 'query-string';
 
+import { serverConfig } from 'config/index';
+
+console.log(serverConfig.api_url);
+
 const axiosClient = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: serverConfig.api_url,
   headers: { 'content-type': 'application/json' },
   paramsSerializer: function (params) {
     return queryString.stringify(params);

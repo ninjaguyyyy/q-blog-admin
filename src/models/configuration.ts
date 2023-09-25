@@ -5,4 +5,5 @@ export type RouteConfig = {
   path: string;
   component: LoadableComponent<unknown>;
   auth?: boolean;
+  withoutLayout?: boolean;
 };

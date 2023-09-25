@@ -1,9 +1,11 @@
 import { Button, Form, Input, Modal, Select } from 'antd';
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 
 import InputField from 'components/atoms/InputField';
 import { Category } from 'models/entity';
 import SelectField from 'components/atoms/SelectField';
+import { createCategory, updateCategory } from 'services/api-client/category.service';
 
 type Props = {
   category?: Category;
@@ -13,16 +15,29 @@ type Props = {
 
 type FormData = {
   name: string;
-  parentCategory: string;
+  parentCategoryId: string;
 };
 
 export default function CreateOrUpdateCategoryModal({ category, onOk, onCancel }: Props) {
   const isEditMode = !!category;
 
+  // State
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   // Form
   const { control, handleSubmit } = useForm<FormData>({});
 
-  const onSubmit = (data: FormData) => console.log(data);
+  const onSubmit = async (data: FormData) => {
+    console.log(data);
+    try {
+      setIsSubmitting(true);
+      isEditMode ? await updateCategory(data) : await createCategory(data);
+    } catch (error) {
+      console.log('🚀 ~ file: index.tsx:36 ~ requestCreateCategory ~ error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   // Render
   return (
@@ -35,7 +50,7 @@ export default function CreateOrUpdateCategoryModal({ category, onOk, onCancel }
         <Button key="back" onClick={onCancel}>
           Cancel
         </Button>,
-        <Button key="submit" type="primary" form="form" htmlType="submit">
+        <Button loading={isSubmitting} key="submit" type="primary" form="form" htmlType="submit">
           Submit
         </Button>
       ]}>
@@ -50,14 +65,14 @@ export default function CreateOrUpdateCategoryModal({ category, onOk, onCancel }
         </Form.Item>
         <Form.Item label="Parent">
           <SelectField
-            name="parentCategory"
+            name="parentCategoryId"
             control={control}
             size="middle"
-            defaultValue="lucy"
+            defaultValue={0}
             options={[
               { value: 'jack', label: 'Jack' },
               { value: 'lucy', label: 'Lucy' },
-              { value: 'Yiminghe', label: 'yiminghe' }
+              { value: 0, label: 'None' }
             ]}
           />
         </Form.Item>

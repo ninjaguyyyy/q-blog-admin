@@ -5,11 +5,13 @@ import { RouteConfig } from 'models/configuration';
 export const routes: RouteConfig[] = [
   {
     path: '/',
-    component: loadable(() => import('components/pages/Home'))
+    component: loadable(() => import('components/pages/Home')),
+    auth: true
   },
   {
     path: '/sign-in',
-    component: loadable(() => import('components/pages/SignIn'))
+    component: loadable(() => import('components/pages/SignIn')),
+    withoutLayout: true
   },
   {
     path: '/blogs',
@@ -21,10 +23,13 @@ export const routes: RouteConfig[] = [
   },
   {
     path: '/category-management',
-    component: loadable(() => import('components/pages/CategoryManagement'))
+    component: loadable(() => import('components/pages/CategoryManagement')),
+    auth: true
   }
 ];
 
 export const ROUTE = {
-  SIGN_IN: '/sign-in'
+  SIGN_IN: '/sign-in',
+
+  DASHBOARD: '/'
 };
