@@ -1,15 +1,46 @@
-import { Button } from 'antd';
-import { useState } from 'react';
+import { Button, notification } from 'antd';
+import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 import CategoryTable from 'components/organisms/CategoryTable';
 import CreateOrUpdateCategoryModal from 'components/organisms/CreateOrUpdateCategoryModal';
+import { fetchCategories } from 'services/api-client/category.service';
+import { getMessageFromError } from 'utils/error';
 
 export default function CategoryManagement() {
+  // Queries
+  const {
+    isLoading,
+    error,
+    data: categories
+  } = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories
+  });
+
   // State
   const [isOpenCreateOrUpdateCategoryModal, setIsOpenCreateOrUpdateCategoryModal] =
     useState<boolean>(false);
 
-  // Function
+  // Effects
+  useEffect(() => {
+    if (error) {
+      openErrorNotification(getMessageFromError(error));
+    }
+  }, [error]);
+
+  // Notification
+  const [api, notiContextHolder] = notification.useNotification();
+
+  // Functions
+  const openErrorNotification = (errMsg: string) => {
+    api.info({
+      message: `Error`,
+      description: errMsg,
+      type: 'error'
+    });
+  };
+
   const handleClickNewCategory = () => {
     setIsOpenCreateOrUpdateCategoryModal(true);
   };
@@ -30,15 +61,18 @@ export default function CategoryManagement() {
           </Button>
         </div>
 
-        <CategoryTable />
+        <CategoryTable dataSource={categories} isLoading={isLoading} />
       </div>
 
-      {isOpenCreateOrUpdateCategoryModal && (
+      {isOpenCreateOrUpdateCategoryModal && categories && (
         <CreateOrUpdateCategoryModal
+          categories={categories}
           onOk={createCategory}
           onCancel={() => setIsOpenCreateOrUpdateCategoryModal(false)}
         />
       )}
+
+      {notiContextHolder}
     </div>
   );
 }

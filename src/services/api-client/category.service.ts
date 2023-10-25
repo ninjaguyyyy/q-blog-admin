@@ -1,12 +1,13 @@
+import { Category } from 'models/entity';
 import axiosClient from 'services/api-client/axios-client';
 
 const APIs = {
   CATEGORIES: '/api/categories'
 };
 
-export const fetchCategories = async () => {
+export const fetchCategories = async (): Promise<Category[]> => {
   const data = await axiosClient.get(APIs.CATEGORIES);
-  return data;
+  return data.data;
 };
 
 export const createCategory = async (payload: CreateOrUpdateCategoryPayload) => {

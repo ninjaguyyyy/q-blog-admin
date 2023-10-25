@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
-import { Space, Table, Tag, notification } from 'antd';
+import { Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useQuery } from '@tanstack/react-query';
+import React from 'react';
 
-import { fetchCategories } from 'services/api-client/category.service';
-import { getMessageFromError } from 'utils/error';
+import { Category } from 'models/entity';
 
 interface DataType {
   key: string;
@@ -63,64 +61,14 @@ const columns: ColumnsType<DataType> = [
   }
 ];
 
-// const data: DataType[] = [
-//   {
-//     key: '1',
-//     name: 'John Brown',
-//     age: 32,
-//     address: 'New York No. 1 Lake Park',
-//     tags: ['nice', 'developer']
-//   },
-//   {
-//     key: '2',
-//     name: 'Jim Green',
-//     age: 42,
-//     address: 'London No. 1 Lake Park',
-//     tags: ['loser']
-//   },
-//   {
-//     key: '3',
-//     name: 'Joe Black',
-//     age: 32,
-//     address: 'Sydney No. 1 Lake Park',
-//     tags: ['cool', 'teacher']
-//   }
-// ];
+type Props = {
+  dataSource?: Category[];
+  isLoading: boolean;
+};
 
-const CategoryTable: React.FC = () => {
-  // Queries
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['categories'],
-    queryFn: fetchCategories
-  });
-  console.log('🚀 ~ file: index.tsx:93 ~ error:', error);
-
-  // Notification
-  const [api, contextHolder] = notification.useNotification();
-
-  // Functions
-  const openErrorNotification = (errMsg: string) => {
-    api.info({
-      message: `Error`,
-      description: errMsg,
-      type: 'error'
-    });
-  };
-
-  // Effects
-  useEffect(() => {
-    if (error) {
-      openErrorNotification(getMessageFromError(error));
-    }
-  }, [error]);
-
+const CategoryTable = ({ dataSource, isLoading }: Props) => {
   // Render
-  return (
-    <>
-      <Table columns={columns} dataSource={data?.data} loading={isLoading} />
-      {contextHolder}
-    </>
-  );
+  return <Table columns={columns} dataSource={dataSource} loading={isLoading} />;
 };
 
 export default CategoryTable;

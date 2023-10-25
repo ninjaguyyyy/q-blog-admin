@@ -8,6 +8,7 @@ import SelectField from 'components/atoms/SelectField';
 import { createCategory, updateCategory } from 'services/api-client/category.service';
 
 type Props = {
+  categories: Category[];
   category?: Category;
   onOk: () => void;
   onCancel: () => void;
@@ -18,7 +19,12 @@ type FormData = {
   parentCategoryId: string;
 };
 
-export default function CreateOrUpdateCategoryModal({ category, onOk, onCancel }: Props) {
+export default function CreateOrUpdateCategoryModal({
+  categories,
+  category,
+  onOk,
+  onCancel
+}: Props) {
   const isEditMode = !!category;
 
   // State
@@ -27,7 +33,12 @@ export default function CreateOrUpdateCategoryModal({ category, onOk, onCancel }
   // Form
   const { control, handleSubmit } = useForm<FormData>({});
 
+  const prepareDataToSubmit = (data: FormData) => {
+    console.log('🚀 ~ file: index.tsx:31 ~ prepareDataToSubmit ~ data:', data);
+  };
+
   const onSubmit = async (data: FormData) => {
+    prepareDataToSubmit(data);
     console.log(data);
     try {
       setIsSubmitting(true);
