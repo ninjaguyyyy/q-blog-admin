@@ -1,5 +1,6 @@
 import { BlockOutlined, DatabaseOutlined, UserOutlined } from '@ant-design/icons';
 
+import { ROUTE } from 'constants/routes';
 import { SidebarItem } from 'models/sidebar-item';
 
 export const SIDEBAR_ITEMS: SidebarItem[] = [
@@ -8,7 +9,7 @@ export const SIDEBAR_ITEMS: SidebarItem[] = [
     subs: [
       {
         title: 'Dashboard',
-        link: '/dashboard',
+        link: ROUTE.DASHBOARD,
         icon: <DatabaseOutlined />
       }
     ]
@@ -17,13 +18,13 @@ export const SIDEBAR_ITEMS: SidebarItem[] = [
     title: 'Posts',
     subs: [
       {
-        title: 'Posts List',
-        link: '/users',
+        title: 'List',
+        link: ROUTE.POST_MANAGEMENT,
         icon: <BlockOutlined />
       },
       {
-        title: 'Create/Update Post',
-        link: '/users',
+        title: 'Create',
+        link: ROUTE.CREATE_POST,
         icon: <UserOutlined />
       }
     ]
@@ -33,7 +34,7 @@ export const SIDEBAR_ITEMS: SidebarItem[] = [
     subs: [
       {
         title: 'Management',
-        link: '/category-management',
+        link: ROUTE.CATEGORY_MANAGEMENT,
         icon: <BlockOutlined />
       }
     ]
@@ -43,13 +44,8 @@ export const SIDEBAR_ITEMS: SidebarItem[] = [
     subs: [
       {
         title: 'Users List',
-        link: '/users',
+        link: ROUTE.USER_MANAGEMENT,
         icon: <BlockOutlined />
-      },
-      {
-        title: 'Create User',
-        link: '/users',
-        icon: <UserOutlined />
       }
     ]
   }
