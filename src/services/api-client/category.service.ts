@@ -6,8 +6,8 @@ const APIs = {
 };
 
 export const fetchCategories = async (): Promise<Category[]> => {
-  const data = await axiosClient.get(APIs.CATEGORIES);
-  return data.data;
+  const data: Category[] = await axiosClient.get(APIs.CATEGORIES);
+  return data;
 };
 
 export const createCategory = async (payload: CreateOrUpdateCategoryPayload) => {
@@ -27,5 +27,5 @@ export const deleteCategory = async () => {
 
 type CreateOrUpdateCategoryPayload = {
   name: string;
-  parentCategoryId: string;
+  parentCategoryId?: string;
 };

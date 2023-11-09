@@ -24,7 +24,7 @@ const onRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConf
   return config;
 };
 
-const onResponse = (response: AxiosResponse): any => {
+const onResponse = (response: AxiosResponse) => {
   if (response && response.data) {
     return response.data;
   }
