@@ -1,26 +1,40 @@
 import { Button, notification } from 'antd';
 import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import CategoryTable from 'components/organisms/CategoryTable';
 import CreateOrUpdateCategoryModal from 'components/organisms/CreateOrUpdateCategoryModal';
-import { fetchCategories } from 'services/api-client/category.service';
+import { deleteCategory, fetchCategories } from 'services/api-client/category.service';
 import { getMessageFromError } from 'utils/error';
+import { Category } from 'models/entity';
+import ConfirmationModal from 'components/molecules/ConfirmationModal';
 
 export default function CategoryManagement() {
   // Queries
+  const queryClient = useQueryClient();
+
   const {
     isLoading,
     error,
-    data: categories
+    data: categories,
+    refetch
   } = useQuery({
     queryKey: ['categories'],
-    queryFn: fetchCategories
+    queryFn: fetchCategories,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true
+  });
+
+  // Mutation
+  const deleteCategoryMutation = useMutation((categoryId: string) => {
+    return deleteCategory(categoryId);
   });
 
   // State
   const [isOpenCreateOrUpdateCategoryModal, setIsOpenCreateOrUpdateCategoryModal] =
     useState<boolean>(false);
+  const [selectedCategory, setSelectedCategory] = useState<Category>();
+  const [isShowConfirmationModal, setIsShowConfirmationModal] = useState<boolean>(false);
 
   // Effects
   useEffect(() => {
@@ -41,12 +55,57 @@ export default function CategoryManagement() {
     });
   };
 
+  const openSuccessNotification = (msg: string) => {
+    api.info({
+      message: `Success`,
+      description: msg,
+      type: 'success'
+    });
+  };
+
   const handleClickNewCategory = () => {
     setIsOpenCreateOrUpdateCategoryModal(true);
   };
 
-  const createCategory = () => {
-    console.log('create');
+  const handleClickEditCategory = (categoryId: string) => {
+    const category = categories?.find((category) => category._id === categoryId);
+    setSelectedCategory(category);
+    setIsOpenCreateOrUpdateCategoryModal(true);
+  };
+
+  const hideCreateOrUpdateCategoryModal = () => {
+    setIsOpenCreateOrUpdateCategoryModal(false);
+    setSelectedCategory(undefined);
+  };
+
+  const handleSaveCategorySuccess = () => {
+    openSuccessNotification('Save a category successfully!');
+    hideCreateOrUpdateCategoryModal();
+    // refetch();
+    queryClient.invalidateQueries(['categories']);
+  };
+
+  const handleConfirmDeleteCategory = async () => {
+    try {
+      await deleteCategoryMutation.mutateAsync(selectedCategory?._id as string);
+      openSuccessNotification('Delete successfully!');
+      setIsShowConfirmationModal(false);
+    } catch (error: unknown) {
+      openErrorNotification(getMessageFromError(error));
+    } finally {
+      setSelectedCategory(undefined);
+    }
+  };
+
+  const handleCloseConfirmation = () => {
+    setIsShowConfirmationModal(false);
+    setSelectedCategory(undefined);
+  };
+
+  const handleClickDeleteCategory = async (categoryId: string) => {
+    const category = categories?.find((category) => category._id === categoryId);
+    setSelectedCategory(category);
+    setIsShowConfirmationModal(true);
   };
 
   // Render
@@ -61,14 +120,29 @@ export default function CategoryManagement() {
           </Button>
         </div>
 
-        <CategoryTable dataSource={categories} isLoading={isLoading} />
+        <CategoryTable
+          dataSource={categories}
+          isLoading={isLoading}
+          onClickEdit={handleClickEditCategory}
+          onClickDelete={handleClickDeleteCategory}
+        />
       </div>
 
       {isOpenCreateOrUpdateCategoryModal && categories && (
         <CreateOrUpdateCategoryModal
           categories={categories}
-          onOk={createCategory}
-          onCancel={() => setIsOpenCreateOrUpdateCategoryModal(false)}
+          category={selectedCategory}
+          onOk={handleSaveCategorySuccess}
+          onCancel={hideCreateOrUpdateCategoryModal}
+          onFailed={openErrorNotification}
+        />
+      )}
+
+      {isShowConfirmationModal && (
+        <ConfirmationModal
+          onOk={handleConfirmDeleteCategory}
+          onCancel={handleCloseConfirmation}
+          isSubmitting={deleteCategoryMutation.isLoading}
         />
       )}
 

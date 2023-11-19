@@ -1,14 +1,20 @@
-import { Button, Form, Input, Modal, Select } from 'antd';
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useMutation } from '@tanstack/react-query';
+import { Button, Form, Modal } from 'antd';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-import InputField from 'components/atoms/InputField';
-import { Category } from 'models/entity';
-import SelectField from 'components/atoms/SelectField';
-import { createCategory, updateCategory } from 'services/api-client/category.service';
-import { categorySchema } from 'libs/validation/category-schema';
 import InputError from 'components/atoms/InputError';
+import InputField from 'components/atoms/InputField';
+import SelectField from 'components/atoms/SelectField';
+import { categorySchema } from 'libs/validation/category-schema';
+import { Category } from 'models/entity';
+import {
+  CreateOrUpdateCategoryPayload,
+  createCategory,
+  deleteCategory,
+  updateCategory
+} from 'services/api-client/category.service';
 import { getMessageFromError } from 'utils/error';
 
 type Props = {
@@ -33,6 +39,15 @@ export default function CreateOrUpdateCategoryModal({
 }: Props) {
   const isEditMode = !!category;
 
+  // Mutation
+  const createCategoryMutation = useMutation((payload: CreateOrUpdateCategoryPayload) => {
+    return createCategory(payload);
+  });
+
+  const updateCategoryMutation = useMutation((payload: CreateOrUpdateCategoryPayload) => {
+    return updateCategory(category?._id as string, payload);
+  });
+
   // State
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -42,31 +57,44 @@ export default function CreateOrUpdateCategoryModal({
     handleSubmit,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: yupResolver(categorySchema)
+    resolver: yupResolver(categorySchema),
+    defaultValues: isEditMode ? transformToDefaultValues(category) : undefined
   });
 
+  // Functions
+  function transformToDefaultValues(category: Category) {
+    const parentCategoryId = category.parentCategory?.length
+      ? category.parentCategory[0]._id
+      : undefined;
+    return { name: category.name, parentCategoryId };
+  }
+
   const prepareDataToSubmit = (data: FormData) => {
-    console.log('🚀 ~ file: index.tsx:31 ~ prepareDataToSubmit ~ data:', data);
     return {
       name: data.name,
-      parentCategoryId: data.parentCategoryId || undefined
+      parentCategory: data.parentCategoryId || undefined
     };
   };
 
-  // todo: use mutation
   const onSubmit = async (data: FormData) => {
     const dataToSubmit = prepareDataToSubmit(data);
-    console.log(data);
     try {
       setIsSubmitting(true);
-      isEditMode ? await updateCategory(data) : await createCategory(dataToSubmit);
+      isEditMode
+        ? await updateCategoryMutation.mutateAsync(dataToSubmit)
+        : await createCategoryMutation.mutateAsync(dataToSubmit);
       onOk();
-    } catch (error: any) {
+    } catch (error: unknown) {
       onFailed(getMessageFromError(error));
-      console.log('🚀 ~ file: index.tsx:36 ~ requestCreateCategory ~ error:', error);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const convertToCategoryParentOptions = (categories: Category[]) => {
+    return categories
+      .filter((item) => (isEditMode ? item._id !== category?._id : true))
+      .map((category) => ({ value: category._id, label: category.name }));
   };
 
   // Render
@@ -105,11 +133,7 @@ export default function CreateOrUpdateCategoryModal({
             control={control}
             size="middle"
             defaultValue={0}
-            options={[
-              { value: 'jack', label: 'Jack' },
-              { value: 'lucy', label: 'Lucy' },
-              { value: 0, label: 'None' }
-            ]}
+            options={[...convertToCategoryParentOptions(categories), { value: 0, label: 'None' }]}
           />
         </Form.Item>
       </Form>

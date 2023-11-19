@@ -4,4 +4,6 @@ export type User = {
 
 export type Category = {
   name: string;
+  _id: string;
+  parentCategory?: Category[];
 };
