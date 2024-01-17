@@ -24,6 +24,7 @@ export default function CategoryManagement() {
     refetchOnMount: true,
     refetchOnWindowFocus: true
   });
+  console.log('🚀 ~ CategoryManagement ~ categories:', categories);
 
   // Mutation
   const deleteCategoryMutation = useMutation((categoryId: string) => {
@@ -81,7 +82,7 @@ export default function CategoryManagement() {
   const handleSaveCategorySuccess = () => {
     openSuccessNotification('Save a category successfully!');
     hideCreateOrUpdateCategoryModal();
-    // refetch();
+    refetch();
     queryClient.invalidateQueries(['categories']);
   };
 
